@@ -16,4 +16,6 @@ git commit -m "first commit" (to save data)
 
 git push origin main ( to push into the repositery)
 
+git pull origin main (To pull from repositery)
+
 finished
