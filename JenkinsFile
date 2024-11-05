@@ -1,0 +1,76 @@
+pipeline {
+    agent any  // Use any available agent or executor
+
+    environment {
+        DEPLOY_ENV = 'staging'  // Define the deployment environment
+        REPO_URL = 'https://github.com/your-repo.git'
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                script {
+                    checkoutRepo(REPO_URL)
+                }
+            }
+        }
+
+        stage('Build') {
+            steps {
+                script {
+                    buildApplication()
+                }
+            }
+        }
+
+        stage('Test') {
+            steps {
+                script {
+                    runTests()
+                }
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                script {
+                    deployApplication(DEPLOY_ENV)
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            cleanUpWorkspace()
+        }
+    }
+}
+
+def checkoutRepo(repoUrl) {
+    // Clone the repository
+    git repoUrl
+}
+
+def buildApplication() {
+    // Build application (replace with actual build commands)
+    sh 'echo "Building application..."'
+    // Example: sh 'mvn clean install'
+}
+
+def runTests() {
+    // Run tests (replace with actual test commands)
+    sh 'echo "Running tests..."'
+    // Example: sh 'mvn test'
+}
+
+def deployApplication(env) {
+    // Deploy the application
+    sh "echo 'Deploying to ${env} environment...'"
+    // Example: sh 'scp ...'
+}
+
+def cleanUpWorkspace() {
+    echo 'Cleaning up...'
+    deleteDir()
+}
